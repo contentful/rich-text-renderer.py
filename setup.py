@@ -22,7 +22,6 @@ package = 'structured_text_renderer'
 requirements = [
 ]
 test_requirements = [
-    'vcrpy'
 ]
 
 
