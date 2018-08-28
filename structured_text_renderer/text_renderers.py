@@ -9,14 +9,17 @@ class TextRenderer(object):
         underline_renderer=None,
         **kwargs
     ):
-        self.bold_renderer = bold_renderer
-        self.italic_renderer = italic_renderer
-        self.underline_renderer = underline_renderer
+
+        self.mappings = {
+            'bold': bold_renderer,
+            'italic': italic_renderer,
+            'underline': underline_renderer
+        }
 
     def render(self, node):
         node = deepcopy(node)
         for mark in node.get("marks", []):
-            renderer = getattr(self, "{0}_renderer".format(mark["type"]), None)
+            renderer = self.mappings.get(mark["type"], None)
 
             if renderer is not None:
                 node["value"] = renderer.render(node)
