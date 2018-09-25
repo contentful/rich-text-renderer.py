@@ -28,10 +28,72 @@ class HeadingTwoRenderer(BaseBlockRenderer):
         return "h2"
 
 
+class HeadingThreeRenderer(BaseBlockRenderer):
+    @property
+    def _render_tag(self):
+        return "h3"
+
+
+class HeadingFourRenderer(BaseBlockRenderer):
+    @property
+    def _render_tag(self):
+        return "h4"
+
+
+class HeadingFiveRenderer(BaseBlockRenderer):
+    @property
+    def _render_tag(self):
+        return "h5"
+
+
+class HeadingSixRenderer(BaseBlockRenderer):
+    @property
+    def _render_tag(self):
+        return "h6"
+
+
 class ParagraphRenderer(BaseBlockRenderer):
     @property
     def _render_tag(self):
         return "p"
+
+
+class OrderedListRenderer(BaseBlockRenderer):
+    @property
+    def _render_tag(self):
+        return "ol"
+
+
+class UnorderedListRenderer(BaseBlockRenderer):
+    @property
+    def _render_tag(self):
+        return "ul"
+
+
+class ListItemRenderer(BaseBlockRenderer):
+    @property
+    def _render_tag(self):
+        return "li"
+
+
+class QuoteRenderer(BaseBlockRenderer):
+    @property
+    def _render_tag(self):
+        return "blockquote"
+
+
+class HrRenderer(BaseNodeRenderer):
+    def render(self, _node):
+        return "<hr />"
+
+
+class HyperlinkRenderer(BaseNodeRenderer):
+    def render(self, node):
+        result = []
+        for content_node in node["content"]:
+            renderer = self._find_renderer(content_node)
+            result.append(renderer.render(content_node))
+        return '<a href="{0}">{1}</a>'.format(node["data"]["uri"], "".join(result))
 
 
 class EntryBlockRenderer(BaseNodeRenderer):

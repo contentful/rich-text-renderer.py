@@ -44,6 +44,9 @@ clean-test:
 	rm -f .coverage
 	rm -fr htmlcov/
 
+format:
+	black structured_text_renderer tests
+
 lint:
 	flake8 structured_text_renderer
 
@@ -53,10 +56,9 @@ test:
 test-all:
 	tox
 
-coverage:
+coverage: format lint
 	coverage run --source structured_text_renderer setup.py test
 	coverage report -m
-	flake8 structured_text_renderer
 
 watch:
 	fswatch -d -e structured_text_renderer/__pycache__ -e tests/__pycache__ structured_text_renderer tests | xargs -n1 make coverage
