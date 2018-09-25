@@ -6,9 +6,10 @@ from structured_text_renderer.text_renderers import (
     TextRenderer,
     BaseInlineRenderer,
 )
+from structured_text_renderer.base_node_renderer import BaseNodeRenderer
 
 
-class BoldMarkdownRenderer(object):
+class BoldMarkdownRenderer(BaseNodeRenderer):
     def render(self, node):
         return "**{0}**".format(node["value"])
 
@@ -53,9 +54,11 @@ class BaseInlineRendererTest(TestCase):
 class TextRendererTest(TestCase):
     def test_render_single_mark(self):
         text_renderer = TextRenderer(
-            bold_renderer=BoldRenderer(),
-            italic_renderer=ItalicRenderer(),
-            underline_renderer=UnderlineRenderer(),
+            {
+                "bold": BoldRenderer,
+                "italic": ItalicRenderer,
+                "underline": UnderlineRenderer,
+            }
         )
 
         self.assertEqual(text_renderer.render(mock_node_bold_only), "<b>foo</b>")
@@ -64,9 +67,11 @@ class TextRendererTest(TestCase):
 
     def test_render_multiple_marks(self):
         text_renderer = TextRenderer(
-            bold_renderer=BoldRenderer(),
-            italic_renderer=ItalicRenderer(),
-            underline_renderer=UnderlineRenderer(),
+            {
+                "bold": BoldRenderer,
+                "italic": ItalicRenderer,
+                "underline": UnderlineRenderer,
+            }
         )
 
         self.assertEqual(
@@ -75,14 +80,16 @@ class TextRendererTest(TestCase):
 
     def test_render_unsupported_mark(self):
         text_renderer = TextRenderer(
-            bold_renderer=BoldRenderer(),
-            italic_renderer=ItalicRenderer(),
-            underline_renderer=UnderlineRenderer(),
+            {
+                "bold": BoldRenderer,
+                "italic": ItalicRenderer,
+                "underline": UnderlineRenderer,
+            }
         )
 
         self.assertEqual(text_renderer.render(mock_node_unsupported_mark), "foo")
 
     def test_render_with_different_renderer(self):
-        text_renderer = TextRenderer(bold_renderer=BoldMarkdownRenderer())
+        text_renderer = TextRenderer({"bold": BoldMarkdownRenderer})
 
         self.assertEqual(text_renderer.render(mock_node_bold_only), "**foo**")

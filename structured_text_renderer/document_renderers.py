@@ -1,22 +1,11 @@
-class DocumentRenderer(object):
-    def __init__(
-        self,
-        heading_one_renderer=None,
-        heading_two_renderer=None,
-        paragraph_renderer=None,
-        entry_block_renderer=None,
-    ):
-        self.mappings = {
-            "heading-1": heading_one_renderer,
-            "heading-2": heading_two_renderer,
-            "paragraph": paragraph_renderer,
-            "embedded-entry-block": entry_block_renderer,
-        }
+from .base_node_renderer import BaseNodeRenderer
 
+
+class DocumentRenderer(BaseNodeRenderer):
     def render(self, document):
         result = []
         for node in document["content"]:
-            renderer = self.mappings.get(node["nodeType"], None)
+            renderer = self._find_renderer(node)
 
             if renderer is None:
                 continue

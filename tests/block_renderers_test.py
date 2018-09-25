@@ -1,10 +1,6 @@
 from unittest import TestCase
-from structured_text_renderer.text_renderers import (
-    TextRenderer,
-    BoldRenderer,
-    ItalicRenderer,
-    UnderlineRenderer,
-)
+from copy import copy
+from structured_text_renderer.text_renderers import BoldRenderer, TextRenderer
 from structured_text_renderer.block_renderers import (
     ParagraphRenderer,
     BaseBlockRenderer,
@@ -14,72 +10,56 @@ from structured_text_renderer.block_renderers import (
 )
 
 
-mock_node = {"content": [{"value": "foo"}]}
+mock_node = {"content": [{"value": "foo", "nodeType": "text"}]}
 
-mock_node_with_marks = {"content": [{"value": "foo", "marks": [{"type": "bold"}]}]}
+mock_node_with_marks = {
+    "content": [{"value": "foo", "nodeType": "text", "marks": [{"type": "bold"}]}]
+}
 
 mock_data_node = {
     "data": {"target": {"sys": {"id": "foo", "type": "Link", "linkType": "Entry"}}}
 }
 
+mock_unknown_node = {"content": [{"value": "foo", "nodeType": "unknown"}]}
+
 
 class HeadingOneRendererTest(TestCase):
     def test_render(self):
-        text_renderer = TextRenderer(
-            bold_renderer=BoldRenderer(),
-            italic_renderer=ItalicRenderer(),
-            underline_renderer=UnderlineRenderer(),
+        self.assertEqual(
+            HeadingOneRenderer({"text": TextRenderer}).render(mock_node), "<h1>foo</h1>"
         )
-        heading_one_renderer = HeadingOneRenderer(text_renderer=text_renderer)
-
-        self.assertEqual(heading_one_renderer.render(mock_node), "<h1>foo</h1>")
 
 
 class HeadingTwoRendererTest(TestCase):
     def test_render(self):
-        text_renderer = TextRenderer(
-            bold_renderer=BoldRenderer(),
-            italic_renderer=ItalicRenderer(),
-            underline_renderer=UnderlineRenderer(),
+        self.assertEqual(
+            HeadingTwoRenderer({"text": TextRenderer}).render(mock_node), "<h2>foo</h2>"
         )
-        heading_two_renderer = HeadingTwoRenderer(text_renderer=text_renderer)
-
-        self.assertEqual(heading_two_renderer.render(mock_node), "<h2>foo</h2>")
 
 
 class ParagraphRendererTest(TestCase):
     def test_render(self):
-        text_renderer = TextRenderer(
-            bold_renderer=BoldRenderer(),
-            italic_renderer=ItalicRenderer(),
-            underline_renderer=UnderlineRenderer(),
+        self.assertEqual(
+            ParagraphRenderer({"text": TextRenderer}).render(mock_node), "<p>foo</p>"
         )
-        paragraph_renderer = ParagraphRenderer(text_renderer=text_renderer)
-
-        self.assertEqual(paragraph_renderer.render(mock_node), "<p>foo</p>")
 
 
 class BaseBlockRendererTest(TestCase):
     def test_render(self):
-        text_renderer = TextRenderer(
-            bold_renderer=BoldRenderer(),
-            italic_renderer=ItalicRenderer(),
-            underline_renderer=UnderlineRenderer(),
+        self.assertEqual(
+            BaseBlockRenderer({"text": TextRenderer}).render(mock_node),
+            "<div>foo</div>",
         )
-        base_block_renderer = BaseBlockRenderer(text_renderer=text_renderer)
 
-        self.assertEqual(base_block_renderer.render(mock_node), "<div>foo</div>")
+    def test_render_will_skip_unknown_nodes_if_no_null_renderer_is_provided(self):
+        self.assertEqual(BaseBlockRenderer().render(mock_unknown_node), "")
 
     def test_render_will_propagate_to_text_renderers(self):
-        text_renderer = TextRenderer(
-            bold_renderer=BoldRenderer(),
-            italic_renderer=ItalicRenderer(),
-            underline_renderer=UnderlineRenderer(),
-        )
-        base_block_renderer = BaseBlockRenderer(text_renderer=text_renderer)
-
         self.assertEqual(
-            base_block_renderer.render(mock_node_with_marks), "<div><b>foo</b></div>"
+            BaseBlockRenderer({"text": TextRenderer, "bold": BoldRenderer}).render(
+                mock_node_with_marks
+            ),
+            "<div><b>foo</b></div>",
         )
 
 

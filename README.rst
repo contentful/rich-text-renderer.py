@@ -32,20 +32,23 @@ Using different renderers
 There are many cases in which HTML serialization is not what you want.
 Therefore, all renderers are overridable when creating a `structured_text_renderer.StructuredTextRenderer <structured_text_renderer.StructuredTextRenderer>`.
 
-Also, if you're planning to embed entries within your structured text, overriding the ``entry_block_renderer`` option is a must,
+Also, if you're planning to embed entries within your structured text, overriding the ``'embedded-entry-block'`` option is a must,
 as by default it only does ``<div>str(entry)</div>``.
 
 You can override the configuration like follows::
 
-    renderer = StructuredTextRenderer(
-        entry_block_renderer=MyEntryBlockRenderer
-    )
+    renderer = StructuredTextRenderer({
+        'embedded-entry-node': MyEntryBlockRenderer
+    })
 
-Where ``MyEntryBlockRenderer`` requires to have a ``render(self, node)`` method and needs to return a string.
+Where ``MyEntryBlockRenderer`` requires to have a ``render(self, node)`` method and needs to return a string, also it requires to be initialized with a ``dict`` containing mappings for all renderers.
 
 An example entry renderer, assuming our entry has 2 fields called ``name`` and ``description`` could be::
 
-    class MyEntryBlockRenderer(object):
+    from structured_text_renderer.base_node_mapper import BaseNodeMapper
+
+    # BaseNodeRenderer implements the `__init__` method required.
+    class MyEntryBlockRenderer(BaseNodeRenderer):
         def render(self, node):
             entry = node['data']
 
@@ -53,6 +56,22 @@ An example entry renderer, assuming our entry has 2 fields called ``name`` and `
                 entry.name,
                 entry.description
             )
+
+Dealing with unknown node types
+-------------------------------
+
+By default, this library will treat all unknown node types as errors and will raise an exception letting the user know which node mapping is missing.
+If you wish to remove this behaviour then replace the ``None`` key of the mapping with a ``NullRenderer`` that returns an empty string, or something similar.
+
+An example would be like follows::
+
+    class SilentNullRenderer(BaseNodeRenderer):
+        def render(node):
+            ""
+
+    renderer = StructuredTextRenderer({
+        None: SilentNullRenderer
+    })
 
 License
 -------
