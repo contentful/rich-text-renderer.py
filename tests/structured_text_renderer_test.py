@@ -1,5 +1,6 @@
 from unittest import TestCase
 from structured_text_renderer import StructuredTextRenderer
+from structured_text_renderer.base_node_renderer import BaseNodeRenderer
 
 
 full_document = {
@@ -209,53 +210,46 @@ full_document = {
     "nodeClass": "document",
 }
 
+mock_unknown_node = {"content": [], "nodeType": "unknown"}
 
-class HeadingOneMarkdownRenderer(object):
-    def __init__(self, text_renderer=None):
-        self.text_renderer = text_renderer
 
+class HeadingOneMarkdownRenderer(BaseNodeRenderer):
     def render(self, node):
         return "\n".join(
-            "# {0}".format(self.text_renderer.render(c)) for c in node["content"]
+            "# {0}".format(self._find_renderer(c).render(c)) for c in node["content"]
         )
 
 
-class HeadingTwoMarkdownRenderer(object):
-    def __init__(self, text_renderer=None):
-        self.text_renderer = text_renderer
-
+class HeadingTwoMarkdownRenderer(BaseNodeRenderer):
     def render(self, node):
         return "\n".join(
-            "## {0}".format(self.text_renderer.render(c)) for c in node["content"]
+            "## {0}".format(self._find_renderer(c).render(c)) for c in node["content"]
         )
 
 
-class ParagraphMarkdownRenderer(object):
-    def __init__(self, text_renderer=None):
-        self.text_renderer = text_renderer
-
+class ParagraphMarkdownRenderer(BaseNodeRenderer):
     def render(self, node):
         return "\n{0}\n".format(
-            "\n".join(self.text_renderer.render(c) for c in node["content"])
+            "\n".join(self._find_renderer(c).render(c) for c in node["content"])
         )
 
 
-class EntryBlockMarkdownRenderer(object):
+class EntryBlockMarkdownRenderer(BaseNodeRenderer):
     def render(self, node):
         return "\n```\n{0}\n```\n".format(node["data"])
 
 
-class BoldMarkdownRenderer(object):
+class BoldMarkdownRenderer(BaseNodeRenderer):
     def render(self, node):
         return "**{0}**".format(node["value"])
 
 
-class ItalicMarkdownRenderer(object):
+class ItalicMarkdownRenderer(BaseNodeRenderer):
     def render(self, node):
         return "*{0}*".format(node["value"])
 
 
-class UnderlineMarkdownRenderer(object):
+class UnderlineMarkdownRenderer(BaseNodeRenderer):
     def render(self, node):
         return "__{0}__".format(node["value"])
 
@@ -289,15 +283,23 @@ class StructuredTextRendererTest(TestCase):
             ),
         )
 
+    def test_null_renderer_will_raise_an_error_if_unknown_node_type_is_not_mapped(self):
+        renderer = StructuredTextRenderer()
+
+        with self.assertRaises(Exception):
+            renderer.render(mock_unknown_node)
+
     def test_render_with_all_renderers_overridden_for_markdown(self):
         renderer = StructuredTextRenderer(
-            heading_one_renderer=HeadingOneMarkdownRenderer,
-            heading_two_renderer=HeadingTwoMarkdownRenderer,
-            paragraph_renderer=ParagraphMarkdownRenderer,
-            entry_block_renderer=EntryBlockMarkdownRenderer,
-            bold_renderer=BoldMarkdownRenderer,
-            italic_renderer=ItalicMarkdownRenderer,
-            underline_renderer=UnderlineMarkdownRenderer,
+            {
+                "heading-1": HeadingOneMarkdownRenderer,
+                "heading-2": HeadingTwoMarkdownRenderer,
+                "paragraph": ParagraphMarkdownRenderer,
+                "embedded-entry-block": EntryBlockMarkdownRenderer,
+                "bold": BoldMarkdownRenderer,
+                "italic": ItalicMarkdownRenderer,
+                "underline": UnderlineMarkdownRenderer,
+            }
         )
 
         self.assertEqual(

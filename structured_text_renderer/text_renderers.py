@@ -1,32 +1,25 @@
+from .base_node_renderer import BaseNodeRenderer
 from copy import deepcopy
 
 
-class TextRenderer(object):
-    def __init__(
-        self,
-        bold_renderer=None,
-        italic_renderer=None,
-        underline_renderer=None,
-        **kwargs
-    ):
-
-        self.mappings = {
-            'bold': bold_renderer,
-            'italic': italic_renderer,
-            'underline': underline_renderer
-        }
-
+class TextRenderer(BaseNodeRenderer):
     def render(self, node):
         node = deepcopy(node)
         for mark in node.get("marks", []):
-            renderer = self.mappings.get(mark["type"], None)
+            renderer = self._find_renderer(mark)
 
             if renderer is not None:
                 node["value"] = renderer.render(node)
         return node["value"]
 
+    def _find_renderer(self, node):
+        renderer = self.mappings.get(node.get("type", None), None)
 
-class BaseInlineRenderer(object):
+        if renderer is not None:
+            return renderer(self.mappings)
+
+
+class BaseInlineRenderer(BaseNodeRenderer):
     def render(self, node):
         return "<{0}>{1}</{0}>".format(self._render_tag, node["value"])
 
