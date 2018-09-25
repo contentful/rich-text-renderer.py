@@ -3,6 +3,7 @@ from structured_text_renderer.text_renderers import (
     UnderlineRenderer,
     ItalicRenderer,
     BoldRenderer,
+    CodeRenderer,
     TextRenderer,
     BaseInlineRenderer,
 )
@@ -34,6 +35,11 @@ mock_node_unsupported_mark = {"value": "foo", "marks": [{"type": "foobar"}]}
 class UnderlineRendererTest(TestCase):
     def test_render(self):
         self.assertEqual(UnderlineRenderer().render(mock_node), "<u>foo</u>")
+
+
+class CodeRendererTest(TestCase):
+    def test_render(self):
+        self.assertEqual(CodeRenderer().render(mock_node), "<code>foo</code>")
 
 
 class ItalicRendererTest(TestCase):

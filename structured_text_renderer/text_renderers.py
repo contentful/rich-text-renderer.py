@@ -34,6 +34,12 @@ class BoldRenderer(BaseInlineRenderer):
         return "b"
 
 
+class CodeRenderer(BaseInlineRenderer):
+    @property
+    def _render_tag(self):
+        return "code"
+
+
 class ItalicRenderer(BaseInlineRenderer):
     @property
     def _render_tag(self):
