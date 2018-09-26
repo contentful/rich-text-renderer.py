@@ -78,7 +78,8 @@ git-docs: docs
 	git add docs
 	git commit --amend -C HEAD
 
-release: clean git-docs
+# TODO: Add git-docs step once Sphinx docs are set up.
+release: clean
 	python setup.py publish
 
 dist: clean
