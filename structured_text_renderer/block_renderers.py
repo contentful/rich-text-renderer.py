@@ -3,13 +3,16 @@ from .base_node_renderer import BaseNodeRenderer
 
 class BaseBlockRenderer(BaseNodeRenderer):
     def render(self, node):
+        return "<{0}>{1}</{0}>".format(self._render_tag, self._render_content(node))
+
+    def _render_content(self, node):
         result = []
         for c in node["content"]:
             renderer = self._find_renderer(c)
             if renderer is None:
                 continue
-            result.append("<{0}>{1}</{0}>".format(self._render_tag, renderer.render(c)))
-        return "\n".join(result)
+            result.append(renderer.render(c))
+        return "".join(result)
 
     @property
     def _render_tag(self):
@@ -87,13 +90,11 @@ class HrRenderer(BaseNodeRenderer):
         return "<hr />"
 
 
-class HyperlinkRenderer(BaseNodeRenderer):
+class HyperlinkRenderer(BaseBlockRenderer):
     def render(self, node):
-        result = []
-        for content_node in node["content"]:
-            renderer = self._find_renderer(content_node)
-            result.append(renderer.render(content_node))
-        return '<a href="{0}">{1}</a>'.format(node["data"]["uri"], "".join(result))
+        return '<a href="{0}">{1}</a>'.format(
+            node["data"]["uri"], self._render_content(node)
+        )
 
 
 class EntryBlockRenderer(BaseNodeRenderer):
