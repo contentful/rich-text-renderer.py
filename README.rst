@@ -67,7 +67,7 @@ An example would be like follows::
 
     class SilentNullRenderer(BaseNodeRenderer):
         def render(node):
-            ""
+            return ""
 
     renderer = StructuredTextRenderer({
         None: SilentNullRenderer
