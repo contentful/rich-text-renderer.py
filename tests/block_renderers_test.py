@@ -40,6 +40,13 @@ mock_list_node = {
     ]
 }
 
+mock_node_with_multiple_content_nodes = {
+    "content": [
+        {"value": "foo", "nodeType": "text", "marks": [{"type": "bold"}]},
+        {"value": " bar", "nodeType": "text"},
+    ]
+}
+
 mock_unknown_node = {"content": [{"value": "foo", "nodeType": "unknown"}]}
 
 
@@ -138,7 +145,7 @@ class BaseBlockRendererTest(TestCase):
         )
 
     def test_render_will_skip_unknown_nodes_if_no_null_renderer_is_provided(self):
-        self.assertEqual(BaseBlockRenderer().render(mock_unknown_node), "")
+        self.assertEqual(BaseBlockRenderer().render(mock_unknown_node), "<div></div>")
 
     def test_render_will_propagate_to_text_renderers(self):
         self.assertEqual(
@@ -146,6 +153,14 @@ class BaseBlockRendererTest(TestCase):
                 mock_node_with_marks
             ),
             "<div><b>foo</b></div>",
+        )
+
+    def test_render_will_properly_render_nodes_with_multiple_content_nodes(self):
+        self.assertEqual(
+            BaseBlockRenderer({"text": TextRenderer, "bold": BoldRenderer}).render(
+                mock_node_with_multiple_content_nodes
+            ),
+            "<div><b>foo</b> bar</div>",
         )
 
 
