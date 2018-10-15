@@ -79,7 +79,7 @@ class ListItemRenderer(BaseBlockRenderer):
         return "li"
 
 
-class QuoteRenderer(BaseBlockRenderer):
+class BlockQuoteRenderer(BaseBlockRenderer):
     @property
     def _render_tag(self):
         return "blockquote"

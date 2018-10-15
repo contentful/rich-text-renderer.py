@@ -45,10 +45,10 @@ clean-test:
 	rm -fr htmlcov/
 
 format:
-	black structured_text_renderer tests
+	black rich_text_renderer tests
 
 lint:
-	flake8 structured_text_renderer
+	flake8 rich_text_renderer
 
 test:
 	python setup.py test
@@ -57,17 +57,17 @@ test-all:
 	tox
 
 coverage: format lint
-	coverage run --source structured_text_renderer setup.py test
+	coverage run --source rich_text_renderer setup.py test
 	coverage report -m
 
 watch:
-	fswatch -d -e structured_text_renderer/__pycache__ -e tests/__pycache__ structured_text_renderer tests | xargs -n1 make coverage
+	fswatch -d -e rich_text_renderer/__pycache__ -e tests/__pycache__ rich_text_renderer tests | xargs -n1 make coverage
 
 docs:
-	rm -f _docs/structured_text_renderer.rst
+	rm -f _docs/rich_text_renderer.rst
 	rm -f _docs/modules.rst
 	rm -rf _docs/_build/*
-	sphinx-apidoc -o _docs/ structured_text_renderer
+	sphinx-apidoc -o _docs/ rich_text_renderer
 	cd _docs && make html
 	cp LICENSE _docs/_build/html/
 	rm -rf docs

@@ -1,10 +1,7 @@
 from unittest import TestCase
-from structured_text_renderer.text_renderers import TextRenderer, BoldRenderer
-from structured_text_renderer.block_renderers import (
-    ParagraphRenderer,
-    HeadingOneRenderer,
-)
-from structured_text_renderer.document_renderers import DocumentRenderer
+from rich_text_renderer.text_renderers import TextRenderer, BoldRenderer
+from rich_text_renderer.block_renderers import ParagraphRenderer, HeadingOneRenderer
+from rich_text_renderer.document_renderers import DocumentRenderer
 
 
 mock_document = {

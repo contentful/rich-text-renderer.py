@@ -16,7 +16,7 @@ Here are some ways *you* can contribute:
 * by closing [issues][]
 * by reviewing patches
 
-[issues]: https://github.com/contentful/structured_text_renderer.py/issues
+[issues]: https://github.com/contentful/rich-text-renderer.py/issues
 
 ## Submitting an Issue
 We use the [GitHub issue tracker][issues] to track bugs and features. Before

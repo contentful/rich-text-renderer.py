@@ -1,6 +1,6 @@
 from unittest import TestCase
-from structured_text_renderer import StructuredTextRenderer
-from structured_text_renderer.base_node_renderer import BaseNodeRenderer
+from rich_text_renderer import RichTextRenderer
+from rich_text_renderer.base_node_renderer import BaseNodeRenderer
 
 
 full_document = {
@@ -254,9 +254,9 @@ class UnderlineMarkdownRenderer(BaseNodeRenderer):
         return "__{0}__".format(node["value"])
 
 
-class StructuredTextRendererTest(TestCase):
+class RichTextRendererTest(TestCase):
     def test_render_with_defaults(self):
-        renderer = StructuredTextRenderer()
+        renderer = RichTextRenderer()
 
         self.assertEqual(
             renderer.render(full_document),
@@ -284,13 +284,13 @@ class StructuredTextRendererTest(TestCase):
         )
 
     def test_null_renderer_will_raise_an_error_if_unknown_node_type_is_not_mapped(self):
-        renderer = StructuredTextRenderer()
+        renderer = RichTextRenderer()
 
         with self.assertRaises(Exception):
             renderer.render(mock_unknown_node)
 
     def test_render_with_all_renderers_overridden_for_markdown(self):
-        renderer = StructuredTextRenderer(
+        renderer = RichTextRenderer(
             {
                 "heading-1": HeadingOneMarkdownRenderer,
                 "heading-2": HeadingTwoMarkdownRenderer,

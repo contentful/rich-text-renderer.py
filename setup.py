@@ -18,7 +18,7 @@ except (IOError, ImportError):
     readme = ''
 
 
-package = 'structured_text_renderer'
+package = 'rich_text_renderer'
 requirements = [
 ]
 test_requirements = [
@@ -64,17 +64,17 @@ if sys.argv[-1] == 'publish':
 
 
 setup(
-    name='structured_text_renderer',
+    name='rich_text_renderer',
     version=get_version(package),
-    description='Contentful Structured Text Renderer',
+    description='Contentful Rich Text Renderer',
     long_description=readme,
     author=get_author(package),
     author_email=get_email(package),
-    url='https://github.com/contentful/structured_text_renderer.py',
+    url='https://github.com/contentful/rich-text-renderer.py',
     packages=[
-        'structured_text_renderer',
+        'rich_text_renderer',
     ],
-    package_dir={'structured_text_renderer': 'structured_text_renderer'},
+    package_dir={'rich_text_renderer': 'rich_text_renderer'},
     include_package_data=True,
     install_requires=requirements,
     license="MIT",

@@ -1,5 +1,5 @@
 from unittest import TestCase
-from structured_text_renderer.text_renderers import (
+from rich_text_renderer.text_renderers import (
     UnderlineRenderer,
     ItalicRenderer,
     BoldRenderer,
@@ -7,7 +7,7 @@ from structured_text_renderer.text_renderers import (
     TextRenderer,
     BaseInlineRenderer,
 )
-from structured_text_renderer.base_node_renderer import BaseNodeRenderer
+from rich_text_renderer.base_node_renderer import BaseNodeRenderer
 
 
 class BoldMarkdownRenderer(BaseNodeRenderer):

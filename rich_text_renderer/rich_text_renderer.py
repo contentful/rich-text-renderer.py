@@ -12,7 +12,7 @@ from .block_renderers import (
     HeadingFourRenderer,
     HeadingFiveRenderer,
     HeadingSixRenderer,
-    QuoteRenderer,
+    BlockQuoteRenderer,
     HyperlinkRenderer,
     ListItemRenderer,
     OrderedListRenderer,
@@ -26,7 +26,7 @@ from .null_renderer import NullRenderer
 from .base_node_renderer import BaseNodeRenderer
 
 
-class StructuredTextRenderer(BaseNodeRenderer):
+class RichTextRenderer(BaseNodeRenderer):
     def __init__(self, mappings=None):
         DEFAULT_MAPPINGS = {
             "document": DocumentRenderer,
@@ -36,7 +36,7 @@ class StructuredTextRenderer(BaseNodeRenderer):
             "heading-4": HeadingFourRenderer,
             "heading-5": HeadingFiveRenderer,
             "heading-6": HeadingSixRenderer,
-            "quote": QuoteRenderer,
+            "blockquote": BlockQuoteRenderer,
             "hyperlink": HyperlinkRenderer,
             "list-item": ListItemRenderer,
             "ordered-list": OrderedListRenderer,
