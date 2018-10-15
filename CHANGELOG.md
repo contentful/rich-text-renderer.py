@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+## v0.1.0 (`rich_text_renderer`)
+
 As `RichText` moves from `alpha` to `beta`, we're treating this as a feature release.
 
 ### Changed
