@@ -1,5 +1,5 @@
 from unittest import TestCase
-from structured_text_renderer.null_renderer import NullRenderer
+from rich_text_renderer.null_renderer import NullRenderer
 
 mock_node_with_nodeType = {"nodeType": "foo"}
 

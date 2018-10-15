@@ -1,6 +1,6 @@
 from unittest import TestCase
-from structured_text_renderer.text_renderers import BoldRenderer, TextRenderer
-from structured_text_renderer.block_renderers import (
+from rich_text_renderer.text_renderers import BoldRenderer, TextRenderer
+from rich_text_renderer.block_renderers import (
     ParagraphRenderer,
     BaseBlockRenderer,
     HeadingOneRenderer,
@@ -13,7 +13,7 @@ from structured_text_renderer.block_renderers import (
     ListItemRenderer,
     OrderedListRenderer,
     UnorderedListRenderer,
-    QuoteRenderer,
+    BlockQuoteRenderer,
     HrRenderer,
     HyperlinkRenderer,
 )
@@ -102,10 +102,10 @@ class ParagraphRendererTest(TestCase):
         )
 
 
-class QuoteRendererTest(TestCase):
+class BlockQuoteRendererTest(TestCase):
     def test_render(self):
         self.assertEqual(
-            QuoteRenderer({"text": TextRenderer}).render(mock_node),
+            BlockQuoteRenderer({"text": TextRenderer}).render(mock_node),
             "<blockquote>foo</blockquote>",
         )
 

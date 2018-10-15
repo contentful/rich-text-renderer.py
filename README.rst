@@ -1,26 +1,26 @@
-Contentful Structured Text Renderer
+Contentful Rich Text Renderer
 ===================================
 
 `Contentful <https://www.contentful.com>`_ provides a content infrastructure for digital teams to power content in websites, apps, and devices. Unlike a CMS, Contentful was built to integrate with the modern software stack. It offers a central hub for structured content, powerful management and delivery APIs, and a customizable web app that enable developers and content creators to ship digital products faster.
 
-This library provides rendering capabilities for the ``StructuredText`` field type. It is recommended to be used alongside the `Contentful Delivery SDK <https://www.github.com/contentful/contentful.py>`.
-By default this library will serialize ``StructuredText`` fields into it's corresponding HTML representation. All behaviour can be overridden to serialize to different formats.
+This library provides rendering capabilities for the ``RichText`` field type. It is recommended to be used alongside the `Contentful Delivery SDK <https://www.github.com/contentful/contentful.py>`.
+By default this library will serialize ``RichText`` fields into it's corresponding HTML representation. All behaviour can be overridden to serialize to different formats.
 
 Installation
 ------------
 
-Install Contentful Structured Text Renderer from the Python Package Index::
+Install Contentful Rich Text Renderer from the Python Package Index::
 
-    pip install structured_text_renderer
+    pip install rich_text_renderer
 
 Usage
 -----
 
 Create a renderer::
 
-    from structured_text_renderer import StructuredTextRenderer
+    from rich_text_renderer import RichTextRenderer
 
-    renderer = StructuredTextRenderer()
+    renderer = RichTextRenderer()
 
 Render your document::
 
@@ -30,14 +30,14 @@ Using different renderers
 -------------------------
 
 There are many cases in which HTML serialization is not what you want.
-Therefore, all renderers are overridable when creating a `structured_text_renderer.StructuredTextRenderer <structured_text_renderer.StructuredTextRenderer>`.
+Therefore, all renderers are overridable when creating a `rich_text_renderer.RichTextRenderer <rich_text_renderer.RichTextRenderer>`.
 
-Also, if you're planning to embed entries within your structured text, overriding the ``'embedded-entry-block'`` option is a must,
+Also, if you're planning to embed entries within your rich text, overriding the ``'embedded-entry-block'`` option is a must,
 as by default it only does ``<div>str(entry)</div>``.
 
 You can override the configuration like follows::
 
-    renderer = StructuredTextRenderer({
+    renderer = RichTextRenderer({
         'embedded-entry-node': MyEntryBlockRenderer
     })
 
@@ -45,7 +45,7 @@ Where ``MyEntryBlockRenderer`` requires to have a ``render(self, node)`` method 
 
 An example entry renderer, assuming our entry has 2 fields called ``name`` and ``description`` could be::
 
-    from structured_text_renderer.base_node_mapper import BaseNodeMapper
+    from rich_text_renderer.base_node_mapper import BaseNodeMapper
 
     # BaseNodeRenderer implements the `__init__` method required.
     class MyEntryBlockRenderer(BaseNodeRenderer):
@@ -69,7 +69,7 @@ An example would be like follows::
         def render(node):
             return ""
 
-    renderer = StructuredTextRenderer({
+    renderer = RichTextRenderer({
         None: SilentNullRenderer
     })
 
