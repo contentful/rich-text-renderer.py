@@ -100,3 +100,66 @@ class HyperlinkRenderer(BaseBlockRenderer):
 class EntryBlockRenderer(BaseNodeRenderer):
     def render(self, node):
         return "<div>{0}</div>".format(node["data"])
+
+
+class AssetHyperlinkRenderer(BaseBlockRenderer):
+    ANCHOR_HTML = '<a href="{0}">{1}</a>'
+
+    def render(self, node):
+        asset = node["data"]["target"]
+
+        # Check by class name instead of instance type to
+        # avoid dependending on the Contentful SDK.
+        if asset.__class__.__name__ == "Asset":
+            return self._render_asset(asset, node)
+        elif isinstance(asset, dict):
+            if "fields" not in asset and "file" not in asset.get("fields", {}):
+                raise Exception("Node target is not an asset - Node: {0}").format(node)
+            return self._render_hash(asset)
+        else:
+            raise Exception("Node target is not an asset - Node: {0}").format(node)
+
+    def _render_asset(self, asset, node=None):
+        return self._render(
+            self.__class__.ANCHOR_HTML,
+            asset.url(),
+            node if node is not None else asset.title,
+            bool(node),
+        )
+
+    def _render_hash(self, asset, node=None):
+        return self._render(
+            self.__class__.ANCHOR_HTML,
+            asset["fields"]["file"]["url"],
+            node if node is not None else asset["fields"]["title"],
+            bool(node),
+        )
+
+    def _render(self, markup, url, text, formatted=True):
+        if formatted:
+            text = self._render_content(text)
+        return markup.format(url, text)
+
+
+class AssetBlockRenderer(AssetHyperlinkRenderer):
+    IMAGE_HTML = '<img src="{0}" alt="{1}" />'
+
+    def _render_asset(self, asset, node=None):
+        if "contentType" in asset.file and "image" in asset.file["contentType"]:
+            return self._render(
+                self.__class__.IMAGE_HTML, asset.url(), asset.title, False
+            )
+        return super(AssetBlockRenderer, self)._render_asset(asset)
+
+    def _render_hash(self, asset, node=None):
+        if (
+            "contentType" in asset["fields"]["file"]
+            and "image" in asset["fields"]["file"]["contentType"]
+        ):
+            return self._render(
+                self.__class__.IMAGE_HTML,
+                asset["fields"]["file"]["url"],
+                asset["fields"]["title"],
+                False,
+            )
+        return super(AssetBlockRenderer, self)._render_hash(asset)
