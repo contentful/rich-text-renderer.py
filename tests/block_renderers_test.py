@@ -257,7 +257,7 @@ class EntryBlockRendererTest(TestCase):
 
         self.assertEqual(
             entry_block_renderer.render(mock_data_node),
-            "<div>{'target': {'sys': {'id': 'foo', 'type': 'Link', 'linkType': 'Entry'}}}</div>",
+            "<div>{0}</div>".format(mock_data_node["data"]),
         )
 
 
