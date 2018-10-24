@@ -6,6 +6,7 @@ from .text_renderers import (
     UnderlineRenderer,
 )
 from .block_renderers import (
+    HrRenderer,
     HeadingOneRenderer,
     HeadingTwoRenderer,
     HeadingThreeRenderer,
@@ -17,9 +18,10 @@ from .block_renderers import (
     ListItemRenderer,
     OrderedListRenderer,
     UnorderedListRenderer,
-    HrRenderer,
-    EntryBlockRenderer,
     ParagraphRenderer,
+    EntryBlockRenderer,
+    AssetBlockRenderer,
+    AssetHyperlinkRenderer,
 )
 from .document_renderers import DocumentRenderer
 from .null_renderer import NullRenderer
@@ -43,6 +45,8 @@ class RichTextRenderer(BaseNodeRenderer):
             "unordered-list": UnorderedListRenderer,
             "hr": HrRenderer,
             "embedded-entry-block": EntryBlockRenderer,
+            "embedded-asset-block": AssetBlockRenderer,
+            "asset-hyperlink": AssetHyperlinkRenderer,
             "paragraph": ParagraphRenderer,
             "text": TextRenderer,
             "bold": BoldRenderer,

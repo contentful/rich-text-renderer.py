@@ -10,6 +10,8 @@ from rich_text_renderer.block_renderers import (
     HeadingFiveRenderer,
     HeadingSixRenderer,
     EntryBlockRenderer,
+    AssetHyperlinkRenderer,
+    AssetBlockRenderer,
     ListItemRenderer,
     OrderedListRenderer,
     UnorderedListRenderer,
@@ -17,6 +19,14 @@ from rich_text_renderer.block_renderers import (
     HrRenderer,
     HyperlinkRenderer,
 )
+
+
+class Asset(object):
+    def __init__(self, json):
+        self.fields = json["fields"]
+        self.file = self.fields["file"]
+        self.title = self.fields["title"]
+        self.url = lambda: self.file["url"]
 
 
 mock_node = {"content": [{"value": "foo", "nodeType": "text"}]}
@@ -27,6 +37,83 @@ mock_node_with_marks = {
 
 mock_data_node = {
     "data": {"target": {"sys": {"id": "foo", "type": "Link", "linkType": "Entry"}}}
+}
+
+mock_image_asset_node = {
+    "data": {
+        "target": {
+            "fields": {
+                "title": "Foo",
+                "file": {
+                    "contentType": "image/jpeg",
+                    "url": "https://example.com/cat.jpg",
+                },
+            }
+        }
+    }
+}
+
+mock_image_asset_resolved_node = {
+    "data": {
+        "target": Asset(
+            {
+                "fields": {
+                    "title": "Foo",
+                    "file": {
+                        "contentType": "image/jpeg",
+                        "url": "https://example.com/cat.jpg",
+                    },
+                }
+            }
+        )
+    }
+}
+
+mock_non_image_asset_node = {
+    "data": {
+        "target": {
+            "fields": {
+                "title": "Foo",
+                "file": {
+                    "contentType": "text/csv",
+                    "url": "https://example.com/cat.csv",
+                },
+            }
+        }
+    }
+}
+
+mock_non_image_asset_resolved_node = {
+    "data": {
+        "target": Asset(
+            {
+                "fields": {
+                    "title": "Foo",
+                    "file": {
+                        "contentType": "text/csv",
+                        "url": "https://example.com/cat.csv",
+                    },
+                }
+            }
+        )
+    }
+}
+
+mock_asset_hyperlink_node = {
+    "data": {
+        "target": Asset(
+            {
+                "fields": {
+                    "title": "Foo",
+                    "file": {
+                        "contentType": "image/jpeg",
+                        "url": "https://example.com/cat.jpg",
+                    },
+                }
+            }
+        )
+    },
+    "content": [{"value": "Example", "nodeType": "text", "marks": []}],
 }
 
 mock_hyperlink_node = {
@@ -170,7 +257,7 @@ class EntryBlockRendererTest(TestCase):
 
         self.assertEqual(
             entry_block_renderer.render(mock_data_node),
-            "<div>{'target': {'sys': {'id': 'foo', 'type': 'Link', 'linkType': 'Entry'}}}</div>",
+            "<div>{0}</div>".format(mock_data_node["data"]),
         )
 
 
@@ -184,4 +271,53 @@ class HyperlinkRendererTest(TestCase):
         self.assertEqual(
             HyperlinkRenderer({"text": TextRenderer}).render(mock_hyperlink_node),
             '<a href="https://example.com">Example</a>',
+        )
+
+
+class AssetBlockRendererTest(TestCase):
+    def test_render(self):
+        self.assertEqual(
+            AssetBlockRenderer({"text": TextRenderer}).render(mock_image_asset_node),
+            '<img src="https://example.com/cat.jpg" alt="Foo" />',
+        )
+
+        self.assertEqual(
+            AssetBlockRenderer({"text": TextRenderer}).render(
+                mock_image_asset_resolved_node
+            ),
+            '<img src="https://example.com/cat.jpg" alt="Foo" />',
+        )
+
+        self.assertEqual(
+            AssetBlockRenderer({"text": TextRenderer}).render(
+                mock_non_image_asset_node
+            ),
+            '<a href="https://example.com/cat.csv">Foo</a>',
+        )
+
+        self.assertEqual(
+            AssetBlockRenderer({"text": TextRenderer}).render(
+                mock_non_image_asset_resolved_node
+            ),
+            '<a href="https://example.com/cat.csv">Foo</a>',
+        )
+
+    def test_render_raises_exception_when_node_is_not_asset(self):
+        with self.assertRaises(Exception):
+            AssetHyperlinkRenderer().render(mock_node)
+
+        with self.assertRaises(Exception):
+            AssetHyperlinkRenderer().render({"data": {"target": None}})
+
+        with self.assertRaises(Exception):
+            AssetHyperlinkRenderer().render({"data": {"target": {}}})
+
+
+class AssetHyperlinkRendererTest(TestCase):
+    def test_render(self):
+        self.assertEqual(
+            AssetHyperlinkRenderer({"text": TextRenderer}).render(
+                mock_asset_hyperlink_node
+            ),
+            '<a href="https://example.com/cat.jpg">Example</a>',
         )

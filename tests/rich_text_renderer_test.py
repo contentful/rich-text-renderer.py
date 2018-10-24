@@ -264,20 +264,50 @@ class RichTextRendererTest(TestCase):
                 [
                     "<h1>Some heading</h1>",
                     "<p></p>",
-                    "<div>{'target': {'sys': {'id': '49rofLvvxCOiIMIi6mk8ai', 'type': 'Link', 'linkType': 'Entry'}}}</div>",
+                    "<div>{0}</div>".format(
+                        {
+                            "target": {
+                                "sys": {
+                                    "id": "49rofLvvxCOiIMIi6mk8ai",
+                                    "type": "Link",
+                                    "linkType": "Entry",
+                                }
+                            }
+                        }
+                    ),
                     "<h2>Some subheading</h2>",
                     "<p><b>Some bold</b></p>",
                     "<p><i>Some italics</i></p>",
                     "<p><u>Some underline</u></p>",
                     "<p></p>",
                     "<p></p>",
-                    "<div>{'target': {'sys': {'id': '5ZF9Q4K6iWSYIU2OUs0UaQ', 'type': 'Link', 'linkType': 'Entry'}}}</div>",
+                    "<div>{0}</div>".format(
+                        {
+                            "target": {
+                                "sys": {
+                                    "id": "5ZF9Q4K6iWSYIU2OUs0UaQ",
+                                    "type": "Link",
+                                    "linkType": "Entry",
+                                }
+                            }
+                        }
+                    ),
                     "<p></p>",
                     "<p>Some raw content</p>",
                     "<p></p>",
                     "<p>An unpublished embed:</p>",
                     "<p></p>",
-                    "<div>{'target': {'sys': {'id': 'q2hGXkd5tICym64AcgeKK', 'type': 'Link', 'linkType': 'Entry'}}}</div>",
+                    "<div>{0}</div>".format(
+                        {
+                            "target": {
+                                "sys": {
+                                    "id": "q2hGXkd5tICym64AcgeKK",
+                                    "type": "Link",
+                                    "linkType": "Entry",
+                                }
+                            }
+                        }
+                    ),
                     "<p>Some more content</p>",
                 ]
             ),
@@ -290,6 +320,7 @@ class RichTextRendererTest(TestCase):
             renderer.render(mock_unknown_node)
 
     def test_render_with_all_renderers_overridden_for_markdown(self):
+        self.maxDiff = None
         renderer = RichTextRenderer(
             {
                 "heading-1": HeadingOneMarkdownRenderer,
@@ -312,7 +343,17 @@ class RichTextRendererTest(TestCase):
                     "",
                     "",
                     "```",
-                    "{'target': {'sys': {'id': '49rofLvvxCOiIMIi6mk8ai', 'type': 'Link', 'linkType': 'Entry'}}}",
+                    "{0}".format(
+                        {
+                            "target": {
+                                "sys": {
+                                    "id": "49rofLvvxCOiIMIi6mk8ai",
+                                    "type": "Link",
+                                    "linkType": "Entry",
+                                }
+                            }
+                        }
+                    ),
                     "```",
                     "",
                     "## Some subheading",
@@ -333,7 +374,17 @@ class RichTextRendererTest(TestCase):
                     "",
                     "",
                     "```",
-                    "{'target': {'sys': {'id': '5ZF9Q4K6iWSYIU2OUs0UaQ', 'type': 'Link', 'linkType': 'Entry'}}}",
+                    "{0}".format(
+                        {
+                            "target": {
+                                "sys": {
+                                    "id": "5ZF9Q4K6iWSYIU2OUs0UaQ",
+                                    "type": "Link",
+                                    "linkType": "Entry",
+                                }
+                            }
+                        }
+                    ),
                     "```",
                     "",
                     "",
@@ -353,7 +404,17 @@ class RichTextRendererTest(TestCase):
                     "",
                     "",
                     "```",
-                    "{'target': {'sys': {'id': 'q2hGXkd5tICym64AcgeKK', 'type': 'Link', 'linkType': 'Entry'}}}",
+                    "{0}".format(
+                        {
+                            "target": {
+                                "sys": {
+                                    "id": "q2hGXkd5tICym64AcgeKK",
+                                    "type": "Link",
+                                    "linkType": "Entry",
+                                }
+                            }
+                        }
+                    ),
                     "```",
                     "",
                     "",
