@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+## v0.2.1
+
 ### Fixed
 * Fixed Asset Hyperlink not respecting text from the node when link is not an Asset object.
 
