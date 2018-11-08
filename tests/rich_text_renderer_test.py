@@ -236,7 +236,7 @@ class ParagraphMarkdownRenderer(BaseNodeRenderer):
 
 class EntryBlockMarkdownRenderer(BaseNodeRenderer):
     def render(self, node):
-        return "\n```\n{0}\n```\n".format(node["data"])
+        return "\n```\n{0}\n```\n".format(node["data"]["target"])
 
 
 class BoldMarkdownRenderer(BaseNodeRenderer):
@@ -266,12 +266,10 @@ class RichTextRendererTest(TestCase):
                     "<p></p>",
                     "<div>{0}</div>".format(
                         {
-                            "target": {
-                                "sys": {
-                                    "id": "49rofLvvxCOiIMIi6mk8ai",
-                                    "type": "Link",
-                                    "linkType": "Entry",
-                                }
+                            "sys": {
+                                "id": "49rofLvvxCOiIMIi6mk8ai",
+                                "type": "Link",
+                                "linkType": "Entry",
                             }
                         }
                     ),
@@ -283,12 +281,10 @@ class RichTextRendererTest(TestCase):
                     "<p></p>",
                     "<div>{0}</div>".format(
                         {
-                            "target": {
-                                "sys": {
-                                    "id": "5ZF9Q4K6iWSYIU2OUs0UaQ",
-                                    "type": "Link",
-                                    "linkType": "Entry",
-                                }
+                            "sys": {
+                                "id": "5ZF9Q4K6iWSYIU2OUs0UaQ",
+                                "type": "Link",
+                                "linkType": "Entry",
                             }
                         }
                     ),
@@ -299,12 +295,10 @@ class RichTextRendererTest(TestCase):
                     "<p></p>",
                     "<div>{0}</div>".format(
                         {
-                            "target": {
-                                "sys": {
-                                    "id": "q2hGXkd5tICym64AcgeKK",
-                                    "type": "Link",
-                                    "linkType": "Entry",
-                                }
+                            "sys": {
+                                "id": "q2hGXkd5tICym64AcgeKK",
+                                "type": "Link",
+                                "linkType": "Entry",
                             }
                         }
                     ),
@@ -345,12 +339,10 @@ class RichTextRendererTest(TestCase):
                     "```",
                     "{0}".format(
                         {
-                            "target": {
-                                "sys": {
-                                    "id": "49rofLvvxCOiIMIi6mk8ai",
-                                    "type": "Link",
-                                    "linkType": "Entry",
-                                }
+                            "sys": {
+                                "id": "49rofLvvxCOiIMIi6mk8ai",
+                                "type": "Link",
+                                "linkType": "Entry",
                             }
                         }
                     ),
@@ -376,12 +368,10 @@ class RichTextRendererTest(TestCase):
                     "```",
                     "{0}".format(
                         {
-                            "target": {
-                                "sys": {
-                                    "id": "5ZF9Q4K6iWSYIU2OUs0UaQ",
-                                    "type": "Link",
-                                    "linkType": "Entry",
-                                }
+                            "sys": {
+                                "id": "5ZF9Q4K6iWSYIU2OUs0UaQ",
+                                "type": "Link",
+                                "linkType": "Entry",
                             }
                         }
                     ),
@@ -406,12 +396,10 @@ class RichTextRendererTest(TestCase):
                     "```",
                     "{0}".format(
                         {
-                            "target": {
-                                "sys": {
-                                    "id": "q2hGXkd5tICym64AcgeKK",
-                                    "type": "Link",
-                                    "linkType": "Entry",
-                                }
+                            "sys": {
+                                "id": "q2hGXkd5tICym64AcgeKK",
+                                "type": "Link",
+                                "linkType": "Entry",
                             }
                         }
                     ),

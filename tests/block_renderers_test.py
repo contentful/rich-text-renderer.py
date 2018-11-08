@@ -257,7 +257,7 @@ class EntryBlockRendererTest(TestCase):
 
         self.assertEqual(
             entry_block_renderer.render(mock_data_node),
-            "<div>{0}</div>".format(mock_data_node["data"]),
+            "<div>{0}</div>".format(mock_data_node["data"]["target"]),
         )
 
 

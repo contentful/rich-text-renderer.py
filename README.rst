@@ -50,7 +50,7 @@ An example entry renderer, assuming our entry has 2 fields called ``name`` and `
     # BaseNodeRenderer implements the `__init__` method required.
     class MyEntryBlockRenderer(BaseNodeRenderer):
         def render(self, node):
-            entry = node['data']
+            entry = node['data']['target']
 
             return "<div class='my-entry'><h3>{0}</h3><p><small>{1}</p></small></div>".format(
                 entry.name,
