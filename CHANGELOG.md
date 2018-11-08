@@ -1,6 +1,8 @@
 # CHANGELOG
 
 ## Unreleased
+
+## v0.2.2
 ### Fixed
 * Default `EntryBlockRenderer` now properly stringifies `data.target` instead of just data.
 
