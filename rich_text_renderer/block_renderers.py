@@ -99,7 +99,7 @@ class HyperlinkRenderer(BaseBlockRenderer):
 
 class EntryBlockRenderer(BaseNodeRenderer):
     def render(self, node):
-        return "<div>{0}</div>".format(node["data"])
+        return "<div>{0}</div>".format(node["data"]["target"])
 
 
 class AssetHyperlinkRenderer(BaseBlockRenderer):
