@@ -1,6 +1,8 @@
 # CHANGELOG
 
 ## Unreleased
+### Fixed
+* Add support for Unicode in Python 2.7. [#9](https://github.com/contentful/rich-text-renderer.py/issues/9)
 
 ## v0.2.2
 ### Fixed
