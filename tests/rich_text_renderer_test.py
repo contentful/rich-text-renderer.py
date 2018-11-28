@@ -1,3 +1,6 @@
+# -*- coding: utf-8 -*-
+from __future__ import unicode_literals
+
 from unittest import TestCase
 from rich_text_renderer import RichTextRenderer
 from rich_text_renderer.base_node_renderer import BaseNodeRenderer
@@ -212,6 +215,13 @@ full_document = {
 
 mock_unknown_node = {"content": [], "nodeType": "unknown"}
 
+mock_document_with_unicode = {
+    "content": [
+        {"content": [{"value": "😇", "nodeType": "text"}], "nodeType": "paragraph"}
+    ],
+    "nodeType": "document",
+}
+
 
 class HeadingOneMarkdownRenderer(BaseNodeRenderer):
     def render(self, node):
@@ -312,6 +322,13 @@ class RichTextRendererTest(TestCase):
 
         with self.assertRaises(Exception):
             renderer.render(mock_unknown_node)
+
+    def test_render_with_emojis(self):
+        renderer = RichTextRenderer()
+
+        self.assertEqual(
+            renderer.render(mock_document_with_unicode), "\n".join(["<p>😇</p>"])
+        )
 
     def test_render_with_all_renderers_overridden_for_markdown(self):
         self.maxDiff = None

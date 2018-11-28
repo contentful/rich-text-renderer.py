@@ -1,3 +1,6 @@
+from __future__ import unicode_literals
+
+
 class BaseNodeRenderer(object):
     def __init__(self, mappings=None):
         if mappings is None:

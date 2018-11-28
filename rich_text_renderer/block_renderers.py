@@ -1,3 +1,4 @@
+from __future__ import unicode_literals
 from .base_node_renderer import BaseNodeRenderer
 
 
