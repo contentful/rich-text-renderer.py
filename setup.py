@@ -11,12 +11,6 @@ import os
 import re
 import sys
 
-try:
-    import pypandoc
-    readme = pypandoc.convert('README.md', 'rst')
-except (IOError, ImportError):
-    readme = ''
-
 
 package = 'rich_text_renderer'
 requirements = [
