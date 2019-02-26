@@ -18,6 +18,10 @@ requirements = [
 test_requirements = [
 ]
 
+readme = ''
+with open('README.rst', 'r') as f:
+    readme = f.read()
+
 
 def get_version(package):
     """
