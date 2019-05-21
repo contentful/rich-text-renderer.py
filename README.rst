@@ -38,7 +38,7 @@ as by default it only does ``<div>str(entry)</div>``.
 You can override the configuration like follows::
 
     renderer = RichTextRenderer({
-        'embedded-entry-node': MyEntryBlockRenderer
+        'embedded-entry-block': MyEntryBlockRenderer
     })
 
 Where ``MyEntryBlockRenderer`` requires to have a ``render(self, node)`` method and needs to return a string, also it requires to be initialized with a ``dict`` containing mappings for all renderers.
