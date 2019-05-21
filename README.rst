@@ -45,7 +45,7 @@ Where ``MyEntryBlockRenderer`` requires to have a ``render(self, node)`` method 
 
 An example entry renderer, assuming our entry has 2 fields called ``name`` and ``description`` could be::
 
-    from rich_text_renderer.base_node_mapper import BaseNodeMapper
+    from rich_text_renderer.base_node_renderer import BaseNodeRenderer
 
     # BaseNodeRenderer implements the `__init__` method required.
     class MyEntryBlockRenderer(BaseNodeRenderer):
