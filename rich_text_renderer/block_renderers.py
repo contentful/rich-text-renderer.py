@@ -115,10 +115,10 @@ class AssetHyperlinkRenderer(BaseBlockRenderer):
             return self._render_asset(asset, node)
         elif isinstance(asset, dict):
             if "fields" not in asset and "file" not in asset.get("fields", {}):
-                raise Exception("Node target is not an asset - Node: {0}").format(node)
+                raise Exception("Node target is not an asset - Node: {0}".format(node))
             return self._render_hash(asset, node)
         else:
-            raise Exception("Node target is not an asset - Node: {0}").format(node)
+            raise Exception("Node target is not an asset - Node: {0}".format(node))
 
     def _render_asset(self, asset, node=None):
         return self._render(
