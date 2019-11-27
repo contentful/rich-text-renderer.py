@@ -302,16 +302,6 @@ class AssetBlockRendererTest(TestCase):
             '<a href="https://example.com/cat.csv">Foo</a>',
         )
 
-    def test_render_raises_exception_when_node_is_not_asset(self):
-        with self.assertRaises(Exception):
-            AssetHyperlinkRenderer().render(mock_node)
-
-        with self.assertRaises(Exception):
-            AssetHyperlinkRenderer().render({"data": {"target": None}})
-
-        with self.assertRaises(Exception):
-            AssetHyperlinkRenderer().render({"data": {"target": {}}})
-
 
 class AssetHyperlinkRendererTest(TestCase):
     def test_render(self):
@@ -321,3 +311,18 @@ class AssetHyperlinkRendererTest(TestCase):
             ),
             '<a href="https://example.com/cat.jpg">Example</a>',
         )
+
+    def test_render_raises_exception_when_node_is_not_asset(self):
+        with self.assertRaises(Exception) as cm:
+            AssetHyperlinkRenderer().render(mock_node)
+        self.assertEquals(cm.exception.__class__, KeyError)
+
+        with self.assertRaises(Exception) as cm:
+            AssetHyperlinkRenderer().render({"data": {"target": None}})
+        self.assertEquals(cm.exception.__class__, Exception)
+        self.assertRegex(str(cm.exception), r"^Node target is not an asset")
+
+        with self.assertRaises(Exception) as cm:
+            AssetHyperlinkRenderer().render({"data": {"target": {}}})
+        self.assertEquals(cm.exception.__class__, Exception)
+        self.assertRegex(str(cm.exception), r"^Node target is not an asset")
