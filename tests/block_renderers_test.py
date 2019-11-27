@@ -315,14 +315,14 @@ class AssetHyperlinkRendererTest(TestCase):
     def test_render_raises_exception_when_node_is_not_asset(self):
         with self.assertRaises(Exception) as cm:
             AssetHyperlinkRenderer().render(mock_node)
-        self.assertEquals(cm.exception.__class__, KeyError)
+        self.assertEqual(cm.exception.__class__, KeyError)
 
         with self.assertRaises(Exception) as cm:
             AssetHyperlinkRenderer().render({"data": {"target": None}})
-        self.assertEquals(cm.exception.__class__, Exception)
-        self.assertRegex(str(cm.exception), r"^Node target is not an asset")
+        self.assertEqual(cm.exception.__class__, Exception)
+        self.assertTrue("Node target is not an asset" in str(cm.exception))
 
         with self.assertRaises(Exception) as cm:
             AssetHyperlinkRenderer().render({"data": {"target": {}}})
-        self.assertEquals(cm.exception.__class__, Exception)
-        self.assertRegex(str(cm.exception), r"^Node target is not an asset")
+        self.assertEqual(cm.exception.__class__, Exception)
+        self.assertTrue("Node target is not an asset" in str(cm.exception))
