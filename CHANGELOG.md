@@ -2,6 +2,10 @@
 
 ## Unreleased
 
+## v0.2.4
+### Fixed
+* Fixed a typo which was causing the wrong exception to be bubbled up when assets were missing on an embedded asset block. [#12](https://github.com/contentful/rich-text-renderer.py/pull/12)
+
 ## v0.2.3
 ### Fixed
 * Add support for Unicode in Python 2.7. [#9](https://github.com/contentful/rich-text-renderer.py/issues/9)
