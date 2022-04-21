@@ -24,6 +24,10 @@ from .block_renderers import (
     EntryBlockRenderer,
     AssetBlockRenderer,
     AssetHyperlinkRenderer,
+    TableCellRenderer,
+    TableHeaderCellRenderer,
+    TableRowRenderer,
+    TableRenderer
 )
 from .document_renderers import DocumentRenderer
 from .null_renderer import NullRenderer
@@ -55,6 +59,10 @@ class RichTextRenderer(BaseNodeRenderer):
             "code": CodeRenderer,
             "italic": ItalicRenderer,
             "underline": UnderlineRenderer,
+            "table-cell": TableCellRenderer,
+            "table-row": TableRowRenderer,
+            "table-header-cell": TableHeaderCellRenderer,
+            "table": TableRenderer,
             None: NullRenderer,
         }
 

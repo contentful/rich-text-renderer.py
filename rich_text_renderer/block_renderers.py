@@ -164,3 +164,27 @@ class AssetBlockRenderer(AssetHyperlinkRenderer):
                 False,
             )
         return super(AssetBlockRenderer, self)._render_hash(asset)
+
+
+class TableCellRenderer(BaseBlockRenderer):
+    @property
+    def _render_tag(self):
+        return "td"
+
+
+class TableHeaderCellRenderer(BaseBlockRenderer):
+    @property
+    def _render_tag(self):
+        return "th"
+
+
+class TableRowRenderer(BaseBlockRenderer):
+    @property
+    def _render_tag(self):
+        return "tr"
+
+
+class TableRenderer(BaseBlockRenderer):
+    @property
+    def _render_tag(self):
+        return "table"
