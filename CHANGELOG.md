@@ -1,6 +1,9 @@
 # CHANGELOG
 
 ## Unreleased
+
+## v0.2.5
+### Added
 * Add support for Rich Text Tables
 
 ## v0.2.4
