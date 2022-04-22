@@ -18,6 +18,10 @@ from rich_text_renderer.block_renderers import (
     BlockQuoteRenderer,
     HrRenderer,
     HyperlinkRenderer,
+    TableCellRenderer,
+    TableHeaderCellRenderer,
+    TableRowRenderer,
+    TableRenderer
 )
 
 
@@ -131,6 +135,75 @@ mock_node_with_multiple_content_nodes = {
     "content": [
         {"value": "foo", "nodeType": "text", "marks": [{"type": "bold"}]},
         {"value": " bar", "nodeType": "text"},
+    ]
+}
+
+mock_paragraph_node = {
+    "content": [
+        {
+            "nodeType": "paragraph",
+            "data": {},
+            "content": [
+                {
+                    "nodeType": "text",
+                    "data": {},
+                    "marks": [],
+                    "value": "Hello world!"
+                }
+            ]
+        }
+    ]
+}
+
+mock_table_cell_node = {
+    "content": [
+        {
+            "nodeType": "table-cell",
+            "data": {},
+            "content": [
+                {
+                    "nodeType": "paragraph",
+                    "data": {},
+                    "content": [
+                        {
+                            "nodeType": "text",
+                            "data": {},
+                            "marks": [],
+                            "value": "Hello world!"
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}
+
+mock_table_row_node = {
+    "content": [
+        {
+            "nodeType": "table-row",
+            "data": {},
+            "content": [
+                {
+                    "nodeType": "table-cell",
+                    "data": {},
+                    "content": [
+                        {
+                            "nodeType": "paragraph",
+                            "data": {},
+                            "content": [
+                                {
+                                    "nodeType": "text",
+                                    "data": {},
+                                    "marks": [],
+                                    "value": "Hello world!"
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        }
     ]
 }
 
@@ -326,3 +399,41 @@ class AssetHyperlinkRendererTest(TestCase):
             AssetHyperlinkRenderer().render({"data": {"target": {}}})
         self.assertEqual(cm.exception.__class__, Exception)
         self.assertTrue("Node target is not an asset" in str(cm.exception))
+
+
+class TableCellRendererTest(TestCase):
+    def test_render(self):
+        self.assertEqual(
+            TableCellRenderer({"text": TextRenderer, "paragraph": ParagraphRenderer}).render(
+                mock_paragraph_node
+            ), "<td><p>Hello world!</p></td>"
+        )
+
+
+class TableHeaderCellRendererTest(TestCase):
+    def test_render(self):
+        self.assertEqual(
+            TableHeaderCellRenderer({"text": TextRenderer, "paragraph": ParagraphRenderer}).render(
+                mock_paragraph_node
+            ), "<th><p>Hello world!</p></th>"
+        )
+
+
+class TableRowRendererTest(TestCase):
+    def test_render(self):
+        self.assertEqual(
+            TableRowRenderer({"text": TextRenderer, "paragraph": ParagraphRenderer,
+                              "table-cell": TableCellRenderer}).render(
+                mock_table_cell_node
+            ), "<tr><td><p>Hello world!</p></td></tr>"
+        )
+
+
+class TableRendererTest(TestCase):
+    def test_render(self):
+        self.assertEqual(
+            TableRenderer({"text": TextRenderer, "paragraph": ParagraphRenderer,
+                           "table-cell": TableCellRenderer, "table-row": TableRowRenderer}).render(
+                mock_table_row_node
+            ), "<table><tr><td><p>Hello world!</p></td></tr></table>"
+        )
