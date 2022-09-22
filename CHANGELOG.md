@@ -1,6 +1,7 @@
 # CHANGELOG
 
 ## Unreleased
+* Fixed packaging script to include Readme
 
 ## v0.2.5
 ### Added

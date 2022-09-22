@@ -18,11 +18,6 @@ requirements = [
 test_requirements = [
 ]
 
-readme = ''
-with open('README.rst', 'r') as f:
-    readme = f.read()
-
-
 def get_version(package):
     """
     Return package version as listed in `__version__` in `init.py`.
@@ -65,7 +60,7 @@ setup(
     name='rich_text_renderer',
     version=get_version(package),
     description='Contentful Rich Text Renderer',
-    long_description=readme,
+    long_description=open('README.rst').read(),
     author=get_author(package),
     author_email=get_email(package),
     url='https://github.com/contentful/rich-text-renderer.py',
