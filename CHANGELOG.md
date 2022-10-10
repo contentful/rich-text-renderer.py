@@ -1,6 +1,7 @@
 # CHANGELOG
 
 ## Unreleased
+* Changed CI/CD vendor from Travis to CircleCi
 
 ## v0.2.6
 ### Fixed
