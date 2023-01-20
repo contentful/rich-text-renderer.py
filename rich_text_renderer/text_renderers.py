@@ -42,6 +42,18 @@ class CodeRenderer(BaseInlineRenderer):
         return "code"
 
 
+class SuperscriptRenderer(BaseInlineRenderer):
+    @property
+    def _render_tag(self):
+        return "sup"
+
+
+class SubscriptRenderer(BaseInlineRenderer):
+    @property
+    def _render_tag(self):
+        return "sub"
+
+
 class ItalicRenderer(BaseInlineRenderer):
     @property
     def _render_tag(self):

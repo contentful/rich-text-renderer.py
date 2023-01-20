@@ -6,6 +6,8 @@ from rich_text_renderer.text_renderers import (
     CodeRenderer,
     TextRenderer,
     BaseInlineRenderer,
+    SuperscriptRenderer,
+    SubscriptRenderer
 )
 from rich_text_renderer.base_node_renderer import BaseNodeRenderer
 
@@ -55,6 +57,16 @@ class BoldRendererTest(TestCase):
 class BaseInlineRendererTest(TestCase):
     def test_render_will_return_spans(self):
         self.assertEqual(BaseInlineRenderer().render(mock_node), "<span>foo</span>")
+
+
+class SuperscriptRendererTest(TestCase):
+    def test_render(self):
+        self.assertEqual(SuperscriptRenderer().render(mock_node), "<sup>foo</sup>")
+
+
+class SubscriptRendererTest(TestCase):
+    def test_render(self):
+        self.assertEqual(SubscriptRenderer().render(mock_node), "<sub>foo</sub>")
 
 
 class TextRendererTest(TestCase):
