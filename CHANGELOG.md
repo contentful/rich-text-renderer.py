@@ -1,6 +1,6 @@
 # CHANGELOG
 
-## Unreleased
+## v0.2.7
 * Changed CI/CD vendor from Travis to CircleCi
 * Use Twine for publishing on PYPI
 * Added author and changed author email
