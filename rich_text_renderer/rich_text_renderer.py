@@ -6,6 +6,8 @@ from .text_renderers import (
     CodeRenderer,
     ItalicRenderer,
     UnderlineRenderer,
+    SuperscriptRenderer,
+    SubscriptRenderer
 )
 from .block_renderers import (
     HrRenderer,
@@ -57,6 +59,8 @@ class RichTextRenderer(BaseNodeRenderer):
             "text": TextRenderer,
             "bold": BoldRenderer,
             "code": CodeRenderer,
+            "superscript": SuperscriptRenderer,
+            "subscript": SubscriptRenderer,
             "italic": ItalicRenderer,
             "underline": UnderlineRenderer,
             "table-cell": TableCellRenderer,

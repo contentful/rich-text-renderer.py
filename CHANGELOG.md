@@ -5,6 +5,7 @@
 * Use Twine for publishing on PYPI
 * Added author and changed author email
 * Updated `tox.ini` to test for `py37`
+* Added support for superscript and subscript
 
 ## v0.2.6
 ### Fixed
