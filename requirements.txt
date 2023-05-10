@@ -5,7 +5,7 @@ backcall==0.1.0
 click==6.7
 coverage==4.5.1
 decorator==4.3.0
--e git+https://gitlab.com/pycqa/flake8@9631dac52aa6ed8a3de9d0983c3c7b0267ae7d6d#egg=flake8
+-e git+https://github.com/pycqa/flake8@9631dac52aa6ed8a3de9d0983c3c7b0267ae7d6d#egg=flake8
 ipython==6.5.0
 ipython-genutils==0.2.0
 jedi==0.12.1
