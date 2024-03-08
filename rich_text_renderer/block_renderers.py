@@ -1,10 +1,34 @@
 from __future__ import unicode_literals
 from .base_node_renderer import BaseNodeRenderer
 
-
 class BaseBlockRenderer(BaseNodeRenderer):
+
+    def __init__(self, mappings=None, attributes=None):
+        self.attributes = attributes
+
+        super(BaseBlockRenderer, self).__init__(mappings=mappings)
+
+
     def render(self, node):
-        return "<{0}>{1}</{0}>".format(self._render_tag, self._render_content(node))
+        return "<{0}{2}>{1}</{0}>".format(
+            self._render_tag, self._render_content(node), self._render_attibutes()
+        )
+
+
+    def _render_attibutes(self):
+        if not self.attributes:
+            return ""
+
+        attributes_list = self.attributes.items()
+        attributes_list = sorted(attributes_list)
+
+        attributes_list = map(
+            lambda attribute: '{0}="{1}"'.format(attribute[0], attribute[1]),
+            attributes_list,
+        )
+
+        return " " + " ".join(attributes_list)
+
 
     def _render_content(self, node):
         result = []

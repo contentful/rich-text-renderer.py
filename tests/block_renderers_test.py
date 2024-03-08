@@ -437,3 +437,25 @@ class TableRendererTest(TestCase):
                 mock_table_row_node
             ), "<table><tr><td><p>Hello world!</p></td></tr></table>"
         )
+
+
+class HeadingOneWithOneAttributeRendererTest(TestCase):
+    def test_render(self):
+        self.assertEqual(
+            HeadingOneRenderer(
+                {"text": TextRenderer},
+                attributes={"class": "ui header"}
+            ).render(mock_node),
+            '<h1 class="ui header">foo</h1>'
+        )
+
+
+class UnorderedListRendererWithTwoAttributesRendererTest(TestCase):
+    def test_render(self):
+        self.assertEqual(
+            UnorderedListRenderer(
+                {"text": TextRenderer, "list-item": ListItemRenderer},
+                attributes={"class": "ui list", "style": "list-style: circle;"}
+            ).render(mock_list_node),
+            '<ul class="ui list" style="list-style: circle;"><li>foo</li></ul>',
+        )

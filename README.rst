@@ -57,6 +57,31 @@ An example entry renderer, assuming our entry has 2 fields called ``name`` and `
                 entry.description
             )
 
+Using attributes for renderers
+-------------------------
+
+If you want to give custom attributes like `class` to your elements, you can override the default renderers `_attributes` property.
+An example of custom renderer with attributes, assuming our renderer has a `class` attributes could be::
+
+    from rich_text_renderer.block_renderers import HeadingOneRenderer
+
+    class SemanticUIHeadingOneRenderer(HeadingOneRenderer):
+        @property
+        def _attributes(self):
+            return {"class": "ui header"}
+
+
+    semantic_ui_rich_text_renderer = RichTextRenderer(
+        {
+            "heading-1": SemanticUIHeadingOneRenderer,
+        }
+    )
+
+Which for all h1 headers will output::
+ 
+    <h1 class="ui header"></h1>
+
+
 Dealing with unknown node types
 -------------------------------
 
