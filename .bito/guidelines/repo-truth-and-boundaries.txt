@@ -1,0 +1,9 @@
+Use the repository's written documentation as review context and check whether the change matches the documented intent.
+
+- Start from README.rst, ARCHITECTURE.md, AGENTS.md, CONTRIBUTING.md, and docs/ADRs/ for architectural context.
+- Check whether code, tests, and documentation all tell the same story. Flag mismatches between implementation and the documented architecture or ADRs.
+- Treat AGENTS.md as the authoritative guide for sharp edges and invariants. If a change violates an invariant documented there, flag it.
+- If CI or another required check already enforces a merge rule, do not ask for duplicate PR template sections or manual checklists.
+- Ask for an ADR update when a change is architecture-significant: new renderer base class, new node type category, new dependency, changes to the dispatch mechanism, changes to the public API surface.
+- The public API surface is: RichTextRenderer (constructor signature), BaseNodeRenderer (render + _find_renderer), and the DEFAULT_MAPPINGS structure. Changes to these require extra scrutiny — this is a published library with external consumers.
+- Distinguish public API surface from internal implementation. Internal renderers (block_renderers, text_renderers, document_renderers) are not part of the public API contract.

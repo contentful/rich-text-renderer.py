@@ -1,0 +1,12 @@
+Review this pull request like the tech lead of the rich-text-renderer.py project — a zero-dependency Python library for rendering Contentful Rich Text JSON to HTML (and other formats).
+
+- Prefer a few high-signal findings to a long list of minor or style-only comments.
+- Prioritize behavior, contract, and runtime issues over style. Specifically:
+  - Does the change preserve the renderer dispatch contract (BaseNodeRenderer, _find_renderer, render(self, node))?
+  - Does the change maintain the zero-dependency invariant (install_requires must stay empty)?
+  - Does the change handle both SDK Asset objects and raw dict representations where asset handling is involved?
+  - Does the change update DEFAULT_MAPPINGS when adding new node types?
+- Keep feedback actionable: explain why it matters, how it would surface in practice, and the clearest next step.
+- If a concern is only a risk or assumption rather than a confirmed bug, say so clearly and explain what evidence would confirm it.
+- If you find no issues, say so explicitly and call out any residual uncertainty that still deserves human attention.
+- Do not ask for duplicate PR template sections, checklists, or manual validation acknowledgements when CI or required checks already enforce that policy.

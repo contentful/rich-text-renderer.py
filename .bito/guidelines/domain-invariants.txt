@@ -1,0 +1,21 @@
+Critical invariants for rich-text-renderer.py:
+
+1. ZERO RUNTIME DEPENDENCIES. install_requires in setup.py must stay empty []. Never add runtime dependencies — this is a zero-dep library. Dev/test tooling belongs in requirements.txt only. Any PR that adds to install_requires requires strong justification and an ADR.
+
+2. ALL NEW RENDERERS MUST EXTEND BaseNodeRenderer OR BaseBlockRenderer. Do not duplicate _find_renderer() or _render_content() dispatch logic. Copy-pasting the dispatch into a new class is always wrong.
+
+3. DEFAULT_MAPPINGS must be updated when adding new Contentful node types. Forgetting to register a new renderer class in DEFAULT_MAPPINGS means consumers hit NullRenderer and get an exception at runtime — silent failures are not possible but omissions are.
+
+4. NullRenderer (None key) must remain in DEFAULT_MAPPINGS. This is the fail-loud safety net for unmapped nodes. Do not remove it. Do not replace it with a silent renderer in the default config — consumers who want silent fallback must opt in explicitly.
+
+5. TextRenderer._find_renderer uses mark["type"] not mark["nodeType"]. This is an intentional override of BaseNodeRenderer._find_renderer because inline marks use "type" as their discriminant key, not "nodeType". Do not normalize this without understanding the Rich Text JSON schema.
+
+6. embedded-entry-block default renderer outputs str(entry). This is intentional — it produces a visible placeholder. Do not change EntryBlockRenderer to return an empty string or raise silently. Real applications must override this key.
+
+7. AssetHyperlinkRenderer checks asset.__class__.__name__ == "Asset" (not isinstance). This is a deliberate choice to avoid a hard import dependency on the Contentful SDK. Do not change this to an isinstance check.
+
+8. Version string lives exclusively in rich_text_renderer/__init__.py (__version__). setup.py reads it via regex. Do not hardcode the version in setup.py or create a VERSION file.
+
+9. from __future__ import unicode_literals must stay in all source files. This is a guard for older Python 2 installations that may still be running against installed versions, even though 2.7 is no longer in CI. Removing it is cosmetic churn with potential downstream risk.
+
+10. Tests use Python unittest only — no pytest, no third-party assertion libraries. New tests should follow the same pattern.
