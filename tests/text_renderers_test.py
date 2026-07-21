@@ -33,6 +33,13 @@ mock_node_multiple_marks = {
 
 mock_node_unsupported_mark = {"value": "foo", "marks": [{"type": "foobar"}]}
 
+mock_node_xss = {"value": "<script>alert(1)</script>"}
+
+mock_node_xss_with_mark = {
+    "value": "<script>alert(1)</script>",
+    "marks": [{"type": "bold"}],
+}
+
 
 class UnderlineRendererTest(TestCase):
     def test_render(self):
@@ -111,3 +118,23 @@ class TextRendererTest(TestCase):
         text_renderer = TextRenderer({"bold": BoldMarkdownRenderer})
 
         self.assertEqual(text_renderer.render(mock_node_bold_only), "**foo**")
+
+    def test_render_escapes_html_in_value(self):
+        # AIS-256 / AIS-259: text node content must be HTML-escaped to prevent
+        # stored XSS.
+        text_renderer = TextRenderer({})
+
+        self.assertEqual(
+            text_renderer.render(mock_node_xss),
+            "&lt;script&gt;alert(1)&lt;/script&gt;",
+        )
+
+    def test_render_escapes_html_before_wrapping_marks(self):
+        # Escaping happens before the mark tags are applied, so the mark markup
+        # is preserved while the value is neutralized (no double-escaping).
+        text_renderer = TextRenderer({"bold": BoldRenderer})
+
+        self.assertEqual(
+            text_renderer.render(mock_node_xss_with_mark),
+            "<b>&lt;script&gt;alert(1)&lt;/script&gt;</b>",
+        )

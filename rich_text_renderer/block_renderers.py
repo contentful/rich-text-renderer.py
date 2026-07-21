@@ -4,10 +4,18 @@ from urllib.parse import urlparse
 
 from .base_node_renderer import BaseNodeRenderer
 
-_ALLOWED_SCHEMES = {"https", "http", ""}
+# "" is allowed so that scheme-less relative links (e.g. "/path", "#anchor")
+# keep working; mailto/tel are common in real rich-text content and cannot
+# execute script. Anything else is rewritten to "#".
+_ALLOWED_SCHEMES = {"https", "http", "mailto", "tel", ""}
 
 
 def _safe_url(url):
+    # Reject protocol-relative URLs ("//evil.com/..."). They carry no scheme,
+    # so they'd otherwise pass as a scheme-less relative URL, giving an
+    # open-redirect / phishing vector.
+    if url.lstrip().startswith("//"):
+        return "#"
     scheme = urlparse(url).scheme.lower()
     if scheme not in _ALLOWED_SCHEMES:
         return "#"

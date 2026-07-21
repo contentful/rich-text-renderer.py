@@ -125,6 +125,35 @@ mock_hyperlink_node = {
     "content": [{"value": "Example", "nodeType": "text", "marks": []}],
 }
 
+mock_hyperlink_node_javascript = {
+    "data": {"uri": "javascript:alert(1)"},
+    "content": [{"value": "Example", "nodeType": "text", "marks": []}],
+}
+
+mock_hyperlink_node_protocol_relative = {
+    "data": {"uri": "//attacker.com/phish"},
+    "content": [{"value": "Example", "nodeType": "text", "marks": []}],
+}
+
+mock_hyperlink_node_mailto = {
+    "data": {"uri": "mailto:hello@contentful.com"},
+    "content": [{"value": "Example", "nodeType": "text", "marks": []}],
+}
+
+mock_xss_image_asset_node = {
+    "data": {
+        "target": {
+            "fields": {
+                "title": '"><script>alert(1)</script>',
+                "file": {
+                    "contentType": "image/jpeg",
+                    "url": "https://example.com/cat.jpg",
+                },
+            }
+        }
+    }
+}
+
 mock_list_node = {
     "content": [
         {"content": [{"value": "foo", "nodeType": "text"}], "nodeType": "list-item"}
@@ -346,6 +375,34 @@ class HyperlinkRendererTest(TestCase):
             '<a href="https://example.com">Example</a>',
         )
 
+    def test_render_neutralizes_dangerous_scheme(self):
+        # AIS-257: javascript: (and any non-allowlisted scheme) must be
+        # rewritten to "#".
+        self.assertEqual(
+            HyperlinkRenderer({"text": TextRenderer}).render(
+                mock_hyperlink_node_javascript
+            ),
+            '<a href="#">Example</a>',
+        )
+
+    def test_render_rejects_protocol_relative_url(self):
+        # Protocol-relative URLs carry no scheme and would otherwise pass
+        # through as a relative link, enabling open-redirect / phishing.
+        self.assertEqual(
+            HyperlinkRenderer({"text": TextRenderer}).render(
+                mock_hyperlink_node_protocol_relative
+            ),
+            '<a href="#">Example</a>',
+        )
+
+    def test_render_preserves_mailto(self):
+        self.assertEqual(
+            HyperlinkRenderer({"text": TextRenderer}).render(
+                mock_hyperlink_node_mailto
+            ),
+            '<a href="mailto:hello@contentful.com">Example</a>',
+        )
+
 
 class AssetBlockRendererTest(TestCase):
     def test_render(self):
@@ -373,6 +430,17 @@ class AssetBlockRendererTest(TestCase):
                 mock_non_image_asset_resolved_node
             ),
             '<a href="https://example.com/cat.csv">Foo</a>',
+        )
+
+    def test_render_escapes_alt_attribute(self):
+        # The alt text is attacker-controllable (asset title) and must be
+        # HTML-escaped when rendered unformatted.
+        self.assertEqual(
+            AssetBlockRenderer({"text": TextRenderer}).render(
+                mock_xss_image_asset_node
+            ),
+            '<img src="https://example.com/cat.jpg" '
+            'alt="&quot;&gt;&lt;script&gt;alert(1)&lt;/script&gt;" />',
         )
 
 
