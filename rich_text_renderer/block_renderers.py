@@ -1,5 +1,25 @@
 from __future__ import unicode_literals
+from html import escape
+from urllib.parse import urlparse
+
 from .base_node_renderer import BaseNodeRenderer
+
+# "" is allowed so that scheme-less relative links (e.g. "/path", "#anchor")
+# keep working; mailto/tel are common in real rich-text content and cannot
+# execute script. Anything else is rewritten to "#".
+_ALLOWED_SCHEMES = {"https", "http", "mailto", "tel", ""}
+
+
+def _safe_url(url):
+    # Reject protocol-relative URLs ("//evil.com/..."). They carry no scheme,
+    # so they'd otherwise pass as a scheme-less relative URL, giving an
+    # open-redirect / phishing vector.
+    if url.lstrip().startswith("//"):
+        return "#"
+    scheme = urlparse(url).scheme.lower()
+    if scheme not in _ALLOWED_SCHEMES:
+        return "#"
+    return escape(url, quote=True)
 
 
 class BaseBlockRenderer(BaseNodeRenderer):
@@ -94,7 +114,7 @@ class HrRenderer(BaseNodeRenderer):
 class HyperlinkRenderer(BaseBlockRenderer):
     def render(self, node):
         return '<a href="{0}">{1}</a>'.format(
-            node["data"]["uri"], self._render_content(node)
+            _safe_url(node["data"]["uri"]), self._render_content(node)
         )
 
 
@@ -139,7 +159,9 @@ class AssetHyperlinkRenderer(BaseBlockRenderer):
     def _render(self, markup, url, text, formatted=True):
         if formatted:
             text = self._render_content(text)
-        return markup.format(url, text)
+        else:
+            text = escape(str(text), quote=True)
+        return markup.format(_safe_url(url), text)
 
 
 class AssetBlockRenderer(AssetHyperlinkRenderer):

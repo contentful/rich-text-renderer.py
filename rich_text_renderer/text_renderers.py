@@ -1,5 +1,6 @@
 from __future__ import unicode_literals
 from copy import deepcopy
+from html import escape
 
 from .base_node_renderer import BaseNodeRenderer
 
@@ -7,6 +8,7 @@ from .base_node_renderer import BaseNodeRenderer
 class TextRenderer(BaseNodeRenderer):
     def render(self, node):
         node = deepcopy(node)
+        node["value"] = escape(node["value"])
         for mark in node.get("marks", []):
             renderer = self._find_renderer(mark)
 
