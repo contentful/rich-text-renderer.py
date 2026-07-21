@@ -1,5 +1,17 @@
 from __future__ import unicode_literals
+from html import escape
+from urllib.parse import urlparse
+
 from .base_node_renderer import BaseNodeRenderer
+
+_ALLOWED_SCHEMES = {"https", "http", ""}
+
+
+def _safe_url(url):
+    scheme = urlparse(url).scheme.lower()
+    if scheme not in _ALLOWED_SCHEMES:
+        return "#"
+    return escape(url, quote=True)
 
 
 class BaseBlockRenderer(BaseNodeRenderer):
@@ -94,7 +106,7 @@ class HrRenderer(BaseNodeRenderer):
 class HyperlinkRenderer(BaseBlockRenderer):
     def render(self, node):
         return '<a href="{0}">{1}</a>'.format(
-            node["data"]["uri"], self._render_content(node)
+            _safe_url(node["data"]["uri"]), self._render_content(node)
         )
 
 
@@ -139,7 +151,9 @@ class AssetHyperlinkRenderer(BaseBlockRenderer):
     def _render(self, markup, url, text, formatted=True):
         if formatted:
             text = self._render_content(text)
-        return markup.format(url, text)
+        else:
+            text = escape(str(text), quote=True)
+        return markup.format(_safe_url(url), text)
 
 
 class AssetBlockRenderer(AssetHyperlinkRenderer):
