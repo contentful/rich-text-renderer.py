@@ -1,7 +1,7 @@
 appdirs==1.4.4
 appnope==0.1.4
 attrs==18.2.0
-backcall==0.1.0
+backcall==0.2.0
 click==6.7
 coverage==4.5.4
 decorator==4.3.0
