@@ -14,7 +14,7 @@ parso==0.8.7
 pexpect==4.6.0
 pickleshare==0.7.5
 prompt-toolkit==1.0.18
-ptyprocess==0.6.0
+ptyprocess==0.7.0
 pycodestyle==2.4.0
 pyflakes==2.0.0
 Pygments==2.2.0
