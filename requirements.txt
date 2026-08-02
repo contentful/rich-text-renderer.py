@@ -11,7 +11,7 @@ ipython-genutils==0.2.0
 jedi==0.12.1
 mccabe==0.6.1
 parso==0.8.7
-pexpect==4.6.0
+pexpect==4.9.0
 pickleshare==0.7.5
 prompt-toolkit==1.0.18
 ptyprocess==0.6.0
