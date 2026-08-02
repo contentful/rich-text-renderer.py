@@ -9,7 +9,7 @@ decorator==4.4.2
 ipython==6.5.0
 ipython-genutils==0.2.0
 jedi==0.12.1
-mccabe==0.6.1
+mccabe==0.7.0
 parso==0.8.7
 pexpect==4.9.0
 pickleshare==0.7.5
