@@ -106,7 +106,7 @@ Untrusted content is neutralised at the point of serialization, in three places
 
 The consequence for extenders is direct: a custom `render` that interpolates
 `node["value"]` or a `data.uri` itself bypasses all of it. See
-`docs/ADRs/2026-08-25-escape-at-the-render-boundary.md`.
+`AI_CONTEXT/ADRs/2026-08-25-escape-at-the-render-boundary.md`.
 
 ## Duck-typed asset detection
 
