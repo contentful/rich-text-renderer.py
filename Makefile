@@ -70,9 +70,10 @@ docs:
 	sphinx-apidoc -o _docs/ rich_text_renderer
 	cd _docs && make html
 	cp LICENSE _docs/_build/html/
-	rm -rf docs
-	cp -r _docs/_build/html docs
-	open docs/index.html
+	rm -rf docs/api
+	mkdir -p docs/api
+	cp -r _docs/_build/html/. docs/api/
+	open docs/api/index.html
 
 git-docs: docs
 	git add docs
