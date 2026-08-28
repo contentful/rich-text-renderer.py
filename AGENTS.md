@@ -32,10 +32,11 @@ All of these exist in this repo — do not substitute ecosystem defaults.
 
 - **`make release`** — runs `python setup.py publish`, which uploads to PyPI,
   creates a git tag, and pushes. Releases are a deliberate human action.
-- **`make docs`** — it runs `rm -rf docs` and replaces `docs/` with generated
-  Sphinx HTML. There is no `_docs/` directory in the repository, so the target
-  cannot succeed as written anyway. Nothing hand-authored belongs under `docs/`;
-  decision records live in `AI_CONTEXT/ADRs/`.
+- **`make docs`** — there is no `_docs/` directory in the repository, so the
+  target cannot succeed as written. It writes generated Sphinx HTML to
+  `docs/api/` and empties that directory first; everything else under `docs/`,
+  including the decision records in `docs/ADRs/`, is hand-authored and is left
+  alone.
 - **`make git-docs`** — runs `docs`, then `git commit --amend -C HEAD`.
 
 ## Layout
@@ -70,7 +71,7 @@ Escaping happens in the renderers, not on the way in. Before touching
 `TextRenderer.render`, `_safe_url` / `_ALLOWED_SCHEMES` in
 `rich_text_renderer/block_renderers.py`, or
 `AssetHyperlinkRenderer._render`, read
-`AI_CONTEXT/ADRs/2026-08-25-escape-at-the-render-boundary.md`. The regression tests
+`docs/ADRs/2026-08-25-escape-at-the-render-boundary.md`. The regression tests
 for these paths are tagged with their `AIS-` ticket numbers in
 `tests/block_renderers_test.py` and `tests/text_renderers_test.py`; keep those
 tests and their comments intact.
