@@ -22,4 +22,4 @@ simplegeneric==0.8.1
 six==1.17.0
 toml==0.10.2
 traitlets==4.3.3
-wcwidth==0.1.7
+wcwidth==0.8.3
