@@ -2,7 +2,7 @@ appdirs==1.4.4
 appnope==0.1.4
 attrs==18.2.0
 backcall==0.2.0
-click==6.7
+click==8.3.3
 coverage==4.5.4
 decorator==4.4.2
 -e git+https://github.com/pycqa/flake8@9631dac52aa6ed8a3de9d0983c3c7b0267ae7d6d#egg=flake8
