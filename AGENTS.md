@@ -9,7 +9,7 @@ for the human PR workflow.
 A zero-runtime-dependency Python library that serializes a Contentful Rich Text
 document (`dict`) to HTML, with every renderer overridable. Published to PyPI as
 `rich_text_renderer`. Default branch is `master`, not `main`. Owned by
-`@contentful/team-developer-experience`; service tier 4 per `catalog-info.yaml`.
+`@contentful/group-applied-ai-solutions`; service tier 4 per `catalog-info.yaml`.
 
 ## Commands
 

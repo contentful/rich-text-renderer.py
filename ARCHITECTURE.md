@@ -138,5 +138,5 @@ when the file's `contentType` contains `"image"`.
 - `setup.py publish` builds with `build`, uploads with `twine`, then tags the
   version from `__init__.py` and pushes. Version bumps are manual edits to
   `rich_text_renderer/__init__.py`, recorded by hand in `CHANGELOG.md`.
-- Ownership is `@contentful/team-developer-experience`
+- Ownership is `@contentful/group-applied-ai-solutions`
   (`.github/CODEOWNERS`, `catalog-info.yaml`); service tier 4.
