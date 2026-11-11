@@ -17,7 +17,7 @@ prompt-toolkit==1.0.18
 ptyprocess==0.7.0
 pycodestyle==2.4.0
 pyflakes==2.0.0
-Pygments==2.2.0
+Pygments==2.20.0
 simplegeneric==0.8.1
 six==1.17.0
 toml==0.10.2
